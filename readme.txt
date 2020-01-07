@@ -36,7 +36,10 @@ To install the Call-out Boxes plugin:
 * Activate the plugin.
 
 == Changelog ==
-Changes and feature additions for the XXX plugin:
+Changes and feature additions for the Call-out Boxes plugin:
+= 1.0.1 =
+* Update azurecurve menu for easier maintenance.
+* Move require of azurecurve menu below security check.
 = 1.0.0 =
 * First version.
 
