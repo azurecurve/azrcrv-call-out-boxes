@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------------
  * Plugin Name: Call-out Boxes
  * Description: Place configurable call-out box in posts, pages or other post types.
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: azurecurve
  * Author URI: https://development.azurecurve.co.uk/classicpress-plugins/
  * Plugin URI: https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes
@@ -24,6 +24,10 @@ if (!defined('ABSPATH')){
 
 // include plugin menu
 require_once(dirname(__FILE__).'/pluginmenu/menu.php');
+register_activation_hook(__FILE__, 'azrcrv_create_plugin_menu_cob');
+
+// include update client
+require_once(dirname(__FILE__).'/libraries/updateclient/UpdateClient.class.php');
 
 /**
  * Setup registration activation hook, actions, filters and shortcodes.
@@ -42,6 +46,7 @@ add_action('network_admin_edit_azrcrv_cob_save_network_options', 'azrcrv_cob_sav
 add_action('wp_enqueue_scripts', 'azrcrv_cob_load_css');
 add_action('admin_enqueue_scripts', 'azrcrv_cob_load_css');
 //add_action('the_posts', 'azrcrv_cob_check_for_shortcode');
+add_action('plugins_loaded', 'azrcrv_cob_load_languages');
 
 // add filters
 add_filter('plugin_action_links', 'azrcrv_cob_add_plugin_action_link', 10, 2);
@@ -49,6 +54,17 @@ add_filter('plugin_action_links', 'azrcrv_cob_add_plugin_action_link', 10, 2);
 // add shortcodes
 add_shortcode('call-out-box', 'azrcrv_cob_display_shortcode');
 add_shortcode('cob', 'azrcrv_cob_display_shortcode');
+
+/**
+ * Load language files.
+ *
+ * @since 1.0.0
+ *
+ */
+function azrcrv_cob_load_languages() {
+    $plugin_rel_path = basename(dirname(__FILE__)).'/languages';
+    load_plugin_textdomain('azrcrv-cob', false, $plugin_rel_path);
+}
 
 /**
  * Check if shortcode on current page and then load css.
