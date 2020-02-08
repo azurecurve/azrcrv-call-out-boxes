@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------------
  * Plugin Name: Call-out Boxes
  * Description: Place configurable call-out box in posts, pages or other post types.
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author: azurecurve
  * Author URI: https://development.azurecurve.co.uk/classicpress-plugins/
  * Plugin URI: https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes
@@ -186,7 +186,7 @@ function azrcrv_cob_add_plugin_action_link($links, $file){
 	}
 
 	if ($file == $this_plugin){
-		$settings_link = '<a href="'.get_bloginfo('wpurl').'/wp-admin/admin.php?page=azrcrv-cob">'.esc_html__('Settings' ,'call-out-boxes').'</a>';
+		$settings_link = '<a href="'.get_bloginfo('wpurl').'/wp-admin/admin.php?page=azrcrv-cob"><img src="'.plugins_url('/pluginmenu/images/Favicon-16x16.png', __FILE__).'" style="padding-top: 2px; margin-right: -5px; height: 16px; width: 16px;" alt="azurecurve" />'.esc_html__('Settings' ,'get-github-file').'</a>';
 		array_unshift($links, $settings_link);
 	}
 
@@ -582,7 +582,7 @@ function azrcrv_cob_display_shortcode($atts, $content = null){
 		if (strlen($heading) > 0){
 			$outputcontent .= esc_html($heading).stripslashes($options['heading-close']);
 		}
-		$outputcontent .= $content;
+		$outputcontent .= '<p>'.$content.'</p>';
 		
 		$output = "<div class='azrcrv-cob' style='".esc_html__($outputwidth).esc_html__($outputmargin).esc_html__($outputpadding).esc_html__($outputborder).esc_html__($outputcolor).esc_html__($outputbackgroundcolor).esc_html__($outputborderradius)."'>";
 		if (options['do-shortcode'] == 1){

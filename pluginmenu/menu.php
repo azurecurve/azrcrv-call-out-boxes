@@ -224,6 +224,13 @@ if (!function_exists('azrcrv_populate_plugin_menu_table_cob')){
 				'retired' => 0
 			),
 			array(
+				'plugin_link' => 'azrcrv-get-github-file/azrcrv-get-github-file.php',
+				'admin_URL' => 'admin.php?page=azrcrv-gghf',
+				'dev_URL' => 'https://development.azurecurve.co.uk/classicpress-plugins/get-github-file/',
+				'text' => 'Get GitHubFile',
+				'retired' => 0
+			),
+			array(
 				'plugin_link' => 'azrcrv-icons/azrcrv-icons.php',
 				'admin_URL' => 'admin.php?page=azrcrv-i',
 				'dev_URL' => 'https://development.azurecurve.co.uk/classicpress-plugins/icons/',
