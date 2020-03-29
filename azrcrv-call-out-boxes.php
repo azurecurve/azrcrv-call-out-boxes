@@ -6,7 +6,7 @@
  * Version: 1.1.2
  * Author: azurecurve
  * Author URI: https://development.azurecurve.co.uk/classicpress-plugins/
- * Plugin URI: https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes
+ * Plugin URI: https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes/
  * Text Domain: call-out-boxes
  * Domain Path: /languages
  * ------------------------------------------------------------------------------
