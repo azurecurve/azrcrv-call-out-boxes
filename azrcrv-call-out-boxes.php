@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------------
  * Plugin Name: Call-out Boxes
  * Description: Place configurable call-out box in posts, pages or other post types.
- * Version: 1.1.5
+ * Version: 1.1.6
  * Author: azurecurve
  * Author URI: https://development.azurecurve.co.uk/classicpress-plugins/
  * Plugin URI: https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes/
@@ -24,7 +24,7 @@ if (!defined('ABSPATH')){
 
 // include plugin menu
 require_once(dirname(__FILE__).'/pluginmenu/menu.php');
-register_activation_hook(__FILE__, 'azrcrv_create_plugin_menu_cob');
+add_action('admin_init', 'azrcrv_create_plugin_menu_cob');
 
 // include update client
 require_once(dirname(__FILE__).'/libraries/updateclient/UpdateClient.class.php');
@@ -36,9 +36,7 @@ require_once(dirname(__FILE__).'/libraries/updateclient/UpdateClient.class.php')
  *
  */
 // add actions
-register_activation_hook(__FILE__, 'azrcrv_cob_set_default_options');
-
-// add actions
+add_action('admin_init', 'azrcrv_cob_set_default_options');
 add_action('admin_menu', 'azrcrv_cob_create_admin_menu');
 add_action('admin_post_azrcrv_cob_save_options', 'azrcrv_cob_save_options');
 add_action('network_admin_menu', 'azrcrv_cob_create_network_admin_menu');
@@ -135,6 +133,7 @@ function azrcrv_cob_set_default_options($networkwide){
 						'padding' => '5px 10px',
 						'border' => '1px solid #007FFF',
 						'border-radius' => '15px',
+						'updated' => strtotime('2020-04-04'),
 			);
 	
 	// set defaults for multi-site
@@ -177,13 +176,21 @@ function azrcrv_cob_update_options($option_name, $new_options, $is_network_site)
 		if (get_site_option($option_name) === false){
 			add_site_option($option_name, $new_options);
 		}else{
-			update_site_option($option_name, azrcrv_cob_update_default_options($new_options, get_site_option($option_name)));
+			$options = get_site_option($option_name);
+			if (!isset($options['updated']) OR $options['updated'] < $new_options['updated'] ){
+				$options['updated'] = $new_options['updated'];
+				update_site_option($option_name, azrcrv_cob_update_default_options($options, $new_options));
+			}
 		}
 	}else{
 		if (get_option($option_name) === false){
 			add_option($option_name, $new_options);
 		}else{
-			update_option($option_name, azrcrv_cob_update_default_options($new_options, get_option($option_name)));
+			$options = get_option($option_name);
+			if (!isset($options['updated']) OR $options['updated'] < $new_options['updated'] ){
+				$options['updated'] = $new_options['updated'];
+				update_option($option_name, azrcrv_cob_update_default_options($options, $new_options));
+			}
 		}
 	}
 }
@@ -200,10 +207,10 @@ function azrcrv_cob_update_default_options( &$default_options, $current_options 
     $current_options = (array) $current_options;
     $updated_options = $current_options;
     foreach ($default_options as $key => &$value) {
-        if (is_array( $value) && isset( $updated_options[$key ])){
-            $updated_options[$key] = azrcrv_cob_update_default_options($value, $updated_options[$key], true);
+        if (is_array( $value) && isset( $updated_options[$key])){
+            $updated_options[$key] = azrcrv_cob_update_default_options($value, $updated_options[$key]);
         } else {
-            $updated_options[$key] = $value;
+			$updated_options[$key] = $value;
         }
     }
     return $updated_options;
