@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------------
  * Plugin Name: Call-out Boxes
  * Description: Place configurable call-out box in posts, pages or other post types.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: azurecurve
  * Author URI: https://development.azurecurve.co.uk/classicpress-plugins/
  * Plugin URI: https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes/
@@ -45,6 +45,8 @@ add_action('plugins_loaded', 'azrcrv_cob_load_languages');
 // add filters
 add_filter('plugin_action_links', 'azrcrv_cob_add_plugin_action_link', 10, 2);
 add_filter('the_posts', 'azrcrv_cob_check_for_shortcode', 10, 2);
+add_filter('codepotent_update_manager_image_path', 'azrcrv_cob_custom_image_path');
+add_filter('codepotent_update_manager_image_url', 'azrcrv_cob_custom_image_url');
 
 // add shortcodes
 add_shortcode('call-out-box', 'azrcrv_cob_display_shortcode');
