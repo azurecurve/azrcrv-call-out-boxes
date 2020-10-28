@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------------
  * Plugin Name: Call-out Boxes
  * Description: Place configurable call-out box in posts, pages or other post types.
- * Version: 1.1.6
+ * Version: 1.2.0
  * Author: azurecurve
  * Author URI: https://development.azurecurve.co.uk/classicpress-plugins/
  * Plugin URI: https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes/
@@ -36,18 +36,15 @@ require_once(dirname(__FILE__).'/libraries/updateclient/UpdateClient.class.php')
  *
  */
 // add actions
-add_action('admin_init', 'azrcrv_cob_set_default_options');
 add_action('admin_menu', 'azrcrv_cob_create_admin_menu');
 add_action('admin_post_azrcrv_cob_save_options', 'azrcrv_cob_save_options');
 add_action('network_admin_menu', 'azrcrv_cob_create_network_admin_menu');
 add_action('network_admin_edit_azrcrv_cob_save_network_options', 'azrcrv_cob_save_network_options');
-add_action('wp_enqueue_scripts', 'azrcrv_cob_load_css');
-add_action('admin_enqueue_scripts', 'azrcrv_cob_load_css');
-//add_action('the_posts', 'azrcrv_cob_check_for_shortcode');
 add_action('plugins_loaded', 'azrcrv_cob_load_languages');
 
 // add filters
 add_filter('plugin_action_links', 'azrcrv_cob_add_plugin_action_link', 10, 2);
+add_filter('the_posts', 'azrcrv_cob_check_for_shortcode', 10, 2);
 
 // add shortcodes
 add_shortcode('call-out-box', 'azrcrv_cob_display_shortcode');
@@ -75,10 +72,10 @@ function azrcrv_cob_check_for_shortcode($posts){
         return $posts;
 	}
 	
-	
 	// array of shortcodes to search for
 	$shortcodes = array(
-						'call-out-box','cob'
+							'call-out-box',
+							'cob',
 						);
 	
     // loop through posts
@@ -113,16 +110,40 @@ function azrcrv_cob_load_css(){
 }
 
 /**
- * Set default options for plugin.
+ * Custom plugin image path.
  *
- * @since 1.0.0
+ * @since 1.2.0
  *
  */
-function azrcrv_cob_set_default_options($networkwide){
-	
-	$option_name = 'azrcrv-cob';
-	
-	$new_options = array(
+function azrcrv_cob_custom_image_path($path){
+    if (strpos($path, 'azrcrv-add-twitter-card') !== false){
+        $path = plugin_dir_path(__FILE__).'assets/pluginimages';
+    }
+    return $path;
+}
+
+/**
+ * Custom plugin image url.
+ *
+ * @since 1.2.0
+ *
+ */
+function azrcrv_cob_custom_image_url($url){
+    if (strpos($url, 'azrcrv-add-twitter-card') !== false){
+        $url = plugin_dir_url(__FILE__).'assets/pluginimages';
+    }
+    return $url;
+}
+
+/**
+ * Get options including defaults.
+ *
+ * @since 1.2.0
+ *
+ */
+function azrcrv_cob_get_option($option_name){
+ 
+	$defaults = array(
 						'icon' => 'lightbulb',
 						'heading-open' => '<h4>',
 						'heading-close' => '</h4>',
@@ -133,87 +154,15 @@ function azrcrv_cob_set_default_options($networkwide){
 						'padding' => '5px 10px',
 						'border' => '1px solid #007FFF',
 						'border-radius' => '15px',
-						'updated' => strtotime('2020-04-04'),
-			);
-	
-	// set defaults for multi-site
-	if (function_exists('is_multisite') && is_multisite()){
-		// check if it is a network activation - if so, run the activation function for each blog id
-		if ($networkwide){
-			global $wpdb;
+						'do-shortcode' => 0,
+					);
 
-			$blog_ids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
-			$original_blog_id = get_current_blog_id();
+	$options = get_option($option_name, $defaults);
 
-			foreach ($blog_ids as $blog_id){
-				switch_to_blog($blog_id);
-				
-				azrcrv_cob_update_options($option_name, $new_options, false);
-			}
+	$options = wp_parse_args($options, $defaults);
 
-			switch_to_blog($original_blog_id);
-		}else{
-			azrcrv_cob_update_options( $option_name, $new_options, false);
-		}
-		if (get_site_option($option_name) === false){
-			azrcrv_cob_update_options($option_name, $new_options, true);
-		}
-	}
-	//set defaults for single site
-	else{
-		azrcrv_cob_update_options($option_name, $new_options, false);
-	}
-}
+	return $options;
 
-/**
- * Update options.
- *
- * @since 1.1.3
- *
- */
-function azrcrv_cob_update_options($option_name, $new_options, $is_network_site){
-	if ($is_network_site == true){
-		if (get_site_option($option_name) === false){
-			add_site_option($option_name, $new_options);
-		}else{
-			$options = get_site_option($option_name);
-			if (!isset($options['updated']) OR $options['updated'] < $new_options['updated'] ){
-				$options['updated'] = $new_options['updated'];
-				update_site_option($option_name, azrcrv_cob_update_default_options($options, $new_options));
-			}
-		}
-	}else{
-		if (get_option($option_name) === false){
-			add_option($option_name, $new_options);
-		}else{
-			$options = get_option($option_name);
-			if (!isset($options['updated']) OR $options['updated'] < $new_options['updated'] ){
-				$options['updated'] = $new_options['updated'];
-				update_option($option_name, azrcrv_cob_update_default_options($options, $new_options));
-			}
-		}
-	}
-}
-
-
-/**
- * Add default options to existing options.
- *
- * @since 1.1.3
- *
- */
-function azrcrv_cob_update_default_options( &$default_options, $current_options ) {
-    $default_options = (array) $default_options;
-    $current_options = (array) $current_options;
-    $updated_options = $current_options;
-    foreach ($default_options as $key => &$value) {
-        if (is_array( $value) && isset( $updated_options[$key])){
-            $updated_options[$key] = azrcrv_cob_update_default_options($value, $updated_options[$key]);
-        } else {
-			$updated_options[$key] = $value;
-        }
-    }
-    return $updated_options;
 }
 
 /**
@@ -230,7 +179,7 @@ function azrcrv_cob_add_plugin_action_link($links, $file){
 	}
 
 	if ($file == $this_plugin){
-		$settings_link = '<a href="'.get_bloginfo('wpurl').'/wp-admin/admin.php?page=azrcrv-cob"><img src="'.plugins_url('/pluginmenu/images/Favicon-16x16.png', __FILE__).'" style="padding-top: 2px; margin-right: -5px; height: 16px; width: 16px;" alt="azurecurve" />'.esc_html__('Settings' ,'get-github-file').'</a>';
+		$settings_link = '<a href="'.admin_url('admin.php?page=azrcrv-cob').'"><img src="'.plugins_url('/pluginmenu/images/Favicon-16x16.png', __FILE__).'" style="padding-top: 2px; margin-right: -5px; height: 16px; width: 16px;" alt="azurecurve" />'.esc_html__('Settings' ,'get-github-file').'</a>';
 		array_unshift($links, $settings_link);
 	}
 
@@ -266,7 +215,7 @@ function azrcrv_cob_display_options(){
     }
 	
 	// Retrieve plugin configuration options from database
-	$options = get_option('azrcrv-cob');
+	$options = azrcrv_cob_get_option('azrcrv-cob');
 	?>
 	<div id="azrcrv-cob-general" class="wrap">
 	
@@ -580,7 +529,7 @@ function azrcrv_cob_is_plugin_active($plugin){
  */
 function azrcrv_cob_display_shortcode($atts, $content = null){
 	
-	$options = get_option('azrcrv-cob');
+	$options = azrcrv_cob_get_option('azrcrv-cob');
 	
 	// extract attributes from shortcode
 	$args = shortcode_atts(array(
@@ -629,7 +578,7 @@ function azrcrv_cob_display_shortcode($atts, $content = null){
 		$outputcontent .= '<p>'.$content.'</p>';
 		
 		$output = "<div class='azrcrv-cob' style='".esc_html__($outputwidth).esc_html__($outputmargin).esc_html__($outputpadding).esc_html__($outputborder).esc_html__($outputcolor).esc_html__($outputbackgroundcolor).esc_html__($outputborderradius)."'>";
-		if (options['do-shortcode'] == 1){
+		if ($options['do-shortcode'] == 1){
 			$output .= do_shortcode($outputcontent);
 		}else{		
 			$output .= $outputcontent;
