@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------------
  * Plugin Name: Call-out Boxes
  * Description: Place configurable call-out box in posts, pages or other post types.
- * Version: 1.2.1
+ * Version: 1.3.0
  * Author: azurecurve
  * Author URI: https://development.azurecurve.co.uk/classicpress-plugins/
  * Plugin URI: https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes/
@@ -118,7 +118,7 @@ function azrcrv_cob_load_css(){
  *
  */
 function azrcrv_cob_custom_image_path($path){
-    if (strpos($path, 'azrcrv-add-twitter-card') !== false){
+    if (strpos($path, 'azrcrv-call-out-boxes') !== false){
         $path = plugin_dir_path(__FILE__).'assets/pluginimages';
     }
     return $path;
@@ -131,7 +131,7 @@ function azrcrv_cob_custom_image_path($path){
  *
  */
 function azrcrv_cob_custom_image_url($url){
-    if (strpos($url, 'azrcrv-add-twitter-card') !== false){
+    if (strpos($url, 'azrcrv-call-out-boxes') !== false){
         $url = plugin_dir_url(__FILE__).'assets/pluginimages';
     }
     return $url;
