@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------------
  * Plugin Name: Call-out Boxes
  * Description: Place configurable call-out box in posts, pages or other post types.
- * Version: 1.3.0
+ * Version: 1.4.0
  * Author: azurecurve
  * Author URI: https://development.azurecurve.co.uk/classicpress-plugins/
  * Plugin URI: https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes/
@@ -36,11 +36,14 @@ require_once(dirname(__FILE__).'/libraries/updateclient/UpdateClient.class.php')
  *
  */
 // add actions
+add_action('init', 'azrcrv_cob_create_custom_post_type');
 add_action('admin_menu', 'azrcrv_cob_create_admin_menu');
 add_action('admin_post_azrcrv_cob_save_options', 'azrcrv_cob_save_options');
 add_action('network_admin_menu', 'azrcrv_cob_create_network_admin_menu');
 add_action('network_admin_edit_azrcrv_cob_save_network_options', 'azrcrv_cob_save_network_options');
 add_action('plugins_loaded', 'azrcrv_cob_load_languages');
+add_action('add_meta_boxes', 'azrcrv_cob_add_meta_boxes');
+add_action( 'save_post', 'azrcrv_cob_save_settings_metabox', 1, 2 );
 
 // add filters
 add_filter('plugin_action_links', 'azrcrv_cob_add_plugin_action_link', 10, 2);
@@ -138,6 +141,380 @@ function azrcrv_cob_custom_image_url($url){
 }
 
 /**
+ * Create custom snippet post type.
+ *
+ * @since 1.0.0
+ *
+ */
+function azrcrv_cob_create_custom_post_type(){
+	register_post_type('call-out-box',
+		array(
+				'labels' => array(
+									'name' => __('Templates', 'call-out-boxes'),
+									'singular_name' => __('Template', 'call-out-boxes'),
+									'menu_name' => __( 'Call-out Boxes', 'call-out-boxes' ),
+									'name_admin_bar' => __( 'Call-out Box Template', 'call-out-boxes' ),
+									'all_items' => __('All Templates', 'call-out-boxes'),
+									'add_new' => __('Add New Template', 'call-out-boxes'),
+									'add_new_item' => __('Add New Call-out Box Template', 'call-out-boxes'),
+									'edit' => __('Edit Template', 'call-out-boxes'),
+									'edit_item' => __('Edit Call-out Box Template', 'call-out-boxes'),
+									'new_item' => __('New Call-out Box Template', 'call-out-boxes'),
+									'view' => __('View Template', 'call-out-boxes'),
+									'view_item' => __('View Call-out Box Template', 'call-out-boxes'),
+									'search_items' => __('Search Call-out Box Templates', 'call-out-boxes'),
+									'not_found' => __('No Call-out Box Templates found', 'call-out-boxes'),
+									'not_found_in_trash' => __('No Call-out Box Templates found in Trash', 'call-out-boxes'),
+									'parent' => __('Parent Call-out Box', 'call-out-boxes')
+								),
+			'public' => false,
+			'exclude_from_search' => true,
+			'publicly_queryable' => false,
+			'menu_position' => 50,
+			'supports' => array('title'),
+			'taxonomies' => array(''),
+			'menu_icon' => 'dashicons-testimonial',
+			'has_archive' => false,
+			'show_ui' => true,
+			'show_in_menu' => true,
+			'show_in_admin_bar' => true,
+			'show_in_nav_menus' => false,
+			'show_in_rest' => false,
+		)
+	);
+}
+
+/**
+ * Add meta box.
+ *
+ * @since 1.0.0
+ *
+ */
+function azrcrv_cob_add_meta_boxes(){
+	
+	// add key meta box
+	add_meta_box(
+		'azrcrv_cob_key_meta_box', // $id
+		'Key', // $title
+		'azrcrv_cob_show_key_meta_box', // $callback
+		'call-out-box', // $screen
+		'normal', // $context
+		'default' // $priority
+	);
+	
+	// add example meta box
+	add_meta_box(
+		'azrcrv_cob_example_meta_box', // $id
+		'Example', // $title
+		'azrcrv_cob_show_example_meta_box', // $callback
+		'call-out-box', // $screen
+		'normal', // $context
+		'default' // $priority
+	);
+	
+	// add settings meta box
+	add_meta_box(
+		'azrcrv_cob_settings_meta_box', // $id
+		'Example', // $title
+		'azrcrv_cob_show_settings_meta_box', // $callback
+		'call-out-box', // $screen
+		'normal', // $context
+		'default' // $priority
+	);
+}
+
+
+/**
+ * Show key meta box.
+ *
+ * @since 1.0.0
+ *
+ */
+function azrcrv_cob_show_key_meta_box(){
+	global $post;
+	
+	?>
+
+	<p>
+		<?php
+			printf(__('Use the following key in the shortcode to use this template: %s' ,'call-out-boxes'), '<strong>'.$post->post_name.'</strong>');
+		?>
+	</p>
+
+<?php
+
+}
+
+
+/**
+ * Show example meta box.
+ *
+ * @since 1.0.0
+ *
+ */
+function azrcrv_cob_show_example_meta_box(){
+	global $post;  
+	
+	$options = azrcrv_s_get_option('azrcrv-cob');
+	
+	$azrcrv_cob = get_post_meta( $post->ID, '_azrcrv_cob', true ); // Get the saved values
+	
+	if (isset($azrcrv_cob['icon']) AND strlen($azrcrv_cob['icon']) > 0){ $icon = $azrcrv_cob['icon']; }else{ $icon = $options['icon']; }
+	if (isset($azrcrv_cob['heading']) AND strlen($azrcrv_cob['heading']) > 0){ $heading = $azrcrv_cob['heading']; }else{ $heading = 'This is an example'; }
+	if (isset($azrcrv_cob['width']) AND strlen($azrcrv_cob['width']) > 0){ $width = $azrcrv_cob['width']; }else{ $width = $options['width']; }
+	if (isset($azrcrv_cob['margin']) AND strlen($azrcrv_cob['margin']) > 0){ $margin = $azrcrv_cob['margin']; }else{ $margin = $options['margin']; }
+	if (isset($azrcrv_cob['padding']) AND strlen($azrcrv_cob['padding']) > 0){ $padding = $azrcrv_cob['padding']; }else{ $padding = $options['padding']; }
+	if (isset($azrcrv_cob['border']) AND strlen($azrcrv_cob['border']) > 0){ $border = $azrcrv_cob['border']; }else{ $border = $options['border']; }
+	if (isset($azrcrv_cob['border-radius']) AND strlen($azrcrv_cob['border-radius']) > 0){ $border_radius = $azrcrv_cob['border-radius']; }else{ $border_radius = $options['border-radius']; }
+	if (isset($azrcrv_cob['color']) AND strlen($azrcrv_cob['color']) > 0){ $color = $azrcrv_cob['color']; }else{ $color = $options['color']; }
+	if (isset($azrcrv_cob['background-color']) AND strlen($azrcrv_cob['background-color']) > 0){ $background_color = $azrcrv_cob['background-color']; }else{ $background_color = $options['background-color']; }
+	
+	?>
+
+	<p>
+		<?php
+			echo azrcrv_cob_display_shortcode(
+													array(
+																'icon' => $icon,
+																'heading' => $heading,
+																'width' => $width,
+																'margin' => $margin,
+																'padding' => $padding,
+																'border' => $border,
+																'border-radius' => $border_radius,
+																'color' => $color,
+																'background-color' => $background_color,
+															), __('The meta box will look approximately like this example; your sites CSS can cause some differences.', 'call-out-boxes'),
+												);
+		?>
+	</p>
+
+<?php
+
+}
+
+
+/**
+ * Show settings meta box.
+ *
+ * @since 1.0.0
+ *
+ */
+function azrcrv_cob_show_settings_meta_box(){
+	// Variables
+	global $post; // Get the current post data
+	
+	$options = azrcrv_n_get_option('azrcrv-cob');
+	
+	$azrcrv_cob = get_post_meta( $post->ID, '_azrcrv_cob', true ); // Get the saved values
+	
+	?>
+
+	<fieldset>
+		
+		<table class="form-table">
+			
+			<?php if (azrcrv_cob_is_plugin_active('azrcrv-icons/azrcrv-icons.php') AND $options['icons-integration'] == 1){ ?>
+				<tr>
+					<th scope="row">
+						<label for="timeline-signifier">
+							<label for="icon"><?php _e('Icon', 'call-out-boxes'); ?></label>
+						</label>
+					</th>
+					<td>
+						<select name="icon">
+						<?php
+							if (isset($azrcrv_cob['icon']) AND strlen($azrcrv_cob['icon']) > 0){ $current_icon = $azrcrv_cob['icon']; }else{ $current_icon = $options['icon']; }
+						?>
+						<option value="" <?php if($current_icon == ''){ echo ' selected="selected"'; } ?>>&nbsp;</option>
+						<?php						
+						$icons = azrcrv_i_get_icons();
+						
+						foreach ($icons as $icon_id => $icon){
+							echo '<option value="'.esc_html($icon_id).'" ';
+							if($current_icon == esc_html($icon_id)){ echo ' selected="selected"'; }
+							echo '>'.esc_html($icon_id).'</option>';
+						}
+						echo '</select>';
+						if (strlen($current_icon) > 0){
+							echo '&nbsp;'.azrcrv_i_icon(array(esc_html(stripslashes($current_icon))));
+						}
+						?>
+					</td>
+				</tr>
+			<?php } ?>
+			
+			<tr>
+				<th scope="row">
+					<label for="heading"><?php _e('Heading', 'call-out-boxes'); ?></label>
+				</th>
+				<td>
+					<?php if (isset($azrcrv_cob['heading'])){ $heading = $azrcrv_cob['heading']; }else{ $heading = ''; } ?>
+					<input type="text" name="heading" value="<?php echo esc_html(stripslashes($heading)); ?>" class="regular-text" />
+					<p class="description"><?php printf(__('Default heading which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>heading</strong>'); ?></p>
+				</td>
+			</tr>
+			
+			<tr>
+				<th scope="row">
+					<label for="width"><?php _e('Width', 'call-out-boxes'); ?></label>
+				</th>
+				<td>
+					<?php if (isset($azrcrv_cob['width'])){ $width = $azrcrv_cob['width']; }else{ $width = ''; } ?>
+					<input type="text" name="width" value="<?php echo esc_html(stripslashes($width)); ?>" class="regular-text" />
+					<p class="description"><?php printf(__('Default width which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>width</strong>'); ?></p>
+				</td>
+			</tr>
+			
+			<tr>
+				<th scope="row">
+					<label for="margin"><?php _e('Margin', 'call-out-boxes'); ?></label>
+				</th>
+				<td>
+					<?php if (isset($azrcrv_cob['margin'])){ $margin = $azrcrv_cob['margin']; }else{ $margin = ''; } ?>
+					<input type="text" name="margin" value="<?php echo esc_html(stripslashes($margin)); ?>" class="regular-text" />
+					<p class="description"><?php printf(__('Default margin which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>margin</strong>'); ?></p>
+				</td>
+			</tr>
+			
+			<tr>
+				<th scope="row">
+					<label for="padding"><?php _e('Padding', 'call-out-boxes'); ?></label>
+				</th>
+				<td>
+					<?php if (isset($azrcrv_cob['padding'])){ $padding = $azrcrv_cob['padding']; }else{ $padding = ''; } ?>
+					<input type="text" name="padding" value="<?php echo esc_html(stripslashes($padding)); ?>" class="regular-text" />
+					<p class="description"><?php printf(__('Default padding which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>padding</strong>'); ?></p>
+				</td>
+			</tr>
+			
+			<tr>
+				<th scope="row">
+					<label for="border"><?php _e('Border', 'call-out-boxes'); ?></label>
+				</th>
+				<td>
+					<?php if (isset($azrcrv_cob['border'])){ $border = $azrcrv_cob['border']; }else{ $border = ''; } ?>
+					<input type="text" name="border" value="<?php echo esc_html(stripslashes($border)); ?>" class="regular-text" />
+					<p class="description"><?php printf(__('Default border which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>border</strong>'); ?></p>
+				</td>
+			</tr>
+			
+			<tr>
+				<th scope="row">
+					<label for="border-radius"><?php _e('Border Radius', 'call-out-boxes'); ?></label>
+				</th>
+				<td>
+					<?php if (isset($azrcrv_cob['border-radius'])){ $border_radius = $azrcrv_cob['border-radius']; }else{ $border_radius = ''; } ?>
+					<input type="text" name="border-radius" value="<?php echo esc_html(stripslashes($border_radius)); ?>" class="regular-text" />
+					<p class="description"><?php printf(__('Default border radius which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>border-radius</strong>'); ?></p>
+				</td>
+			</tr>
+			
+			<tr>
+				<th scope="row">
+					<label for="color"><?php _e('Color', 'call-out-boxes'); ?></label>
+				</th>
+				<td>
+					<?php if (isset($azrcrv_cob['color'])){ $color = $azrcrv_cob['color']; }else{ $color = ''; } ?>
+					<input type="text" name="color" value="<?php echo esc_html(stripslashes($color)); ?>" class="regular-text" />
+					<p class="description"><?php printf(__('Default text color which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>text-color</strong>'); ?></p>
+				</td>
+			</tr>
+			
+			<tr>
+				<th scope="row">
+					<label for="background-color"><?php _e('Background Color', 'call-out-boxes'); ?></label>
+				</th>
+				<td>
+					<?php if (isset($azrcrv_cob['background-color'])){ $background_color = $azrcrv_cob['background-color']; }else{ $background_color = ''; } ?>
+					<input type="text" name="background-color" value="<?php echo esc_html(stripslashes($background_color)); ?>" class="regular-text" />
+					<p class="description"><?php printf(__('Default background color which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>background-color</strong>'); ?></p>
+				</td>
+			</tr>
+			
+		</table>
+	</fieldset>
+
+	<?php
+	// Security field
+	wp_nonce_field( 'azrcrv_cob_show_settings_meta_box_nonce', 'azrcrv_cob_show_settings_meta_box' );
+}
+
+/**
+ * Save the metabox
+ * @param  Number $post_id The post ID
+ * @param  Array  $post    The post data
+ */
+function azrcrv_cob_save_settings_metabox( $post_id, $post ) {
+
+	// Verify that our security field exists. If not, bail.
+	if ( !isset( $_POST['azrcrv_cob_show_settings_meta_box'] ) ) return;
+
+	// Verify data came from edit/dashboard screen
+	if ( !wp_verify_nonce( $_POST['azrcrv_cob_show_settings_meta_box'], 'azrcrv_cob_show_settings_meta_box_nonce' ) ) {
+		return $post->ID;
+	}
+
+	// Verify user has permission to edit post
+	if ( !current_user_can( 'edit_post', $post->ID )) {
+		return $post->ID;
+	}
+	
+	$options = azrcrv_cob_get_option('azrcrv-cob');
+	
+	if (azrcrv_cob_is_plugin_active('azrcrv-icons/azrcrv-icons.php') AND $options['icons-integration'] == 1){
+		$setting_name = 'icon';
+		if (isset($_POST[$setting_name])){
+			$azrcrv_cob[$setting_name] = sanitize_text_field($_POST[$setting_name]);
+		}
+	}
+	
+	$setting_name = 'heading';
+	if (isset($_POST[$setting_name])){
+		$azrcrv_cob[$setting_name] = sanitize_text_field($_POST[$setting_name]);
+	}
+	
+	$setting_name = 'width';
+	if (isset($_POST[$setting_name])){
+		$azrcrv_cob[$setting_name] = sanitize_text_field($_POST[$setting_name]);
+	}
+	
+	$setting_name = 'margin';
+	if (isset($_POST[$setting_name])){
+		$azrcrv_cob[$setting_name] = sanitize_text_field($_POST[$setting_name]);
+	}
+	
+	$setting_name = 'padding';
+	if (isset($_POST[$setting_name])){
+		$azrcrv_cob[$setting_name] = sanitize_text_field($_POST[$setting_name]);
+	}
+	
+	$setting_name = 'border';
+	if (isset($_POST[$setting_name])){
+		$azrcrv_cob[$setting_name] = sanitize_text_field($_POST[$setting_name]);
+	}
+	
+	$setting_name = 'border-radius';
+	if (isset($_POST[$setting_name])){
+		$azrcrv_cob[$setting_name] = sanitize_text_field($_POST[$setting_name]);
+	}
+	
+	$setting_name = 'color';
+	if (isset($_POST[$setting_name])){
+		$azrcrv_cob[$setting_name] = sanitize_text_field($_POST[$setting_name]);
+	}
+	
+	$setting_name = 'background-color';
+	if (isset($_POST[$setting_name])){
+		$azrcrv_cob[$setting_name] = sanitize_text_field($_POST[$setting_name]);
+	}
+	
+	// Save our submissions to the database
+	update_post_meta( $post->ID, '_azrcrv_cob', $azrcrv_cob );
+
+}
+
+/**
  * Get options including defaults.
  *
  * @since 1.2.0
@@ -146,8 +523,9 @@ function azrcrv_cob_custom_image_url($url){
 function azrcrv_cob_get_option($option_name){
  
 	$defaults = array(
+						'icons-integration' => 0,
 						'icon' => 'lightbulb',
-						'heading-open' => '<h4>',
+						'heading-open' => '<h4 class="azrcrv-cob">',
 						'heading-close' => '</h4>',
 						'color' => '#000',
 						'background-color' => '#99CBFF',
@@ -195,15 +573,26 @@ function azrcrv_cob_add_plugin_action_link($links, $file){
  *
  */
 function azrcrv_cob_create_admin_menu(){
-	//global $admin_page_hooks;
 	
+	// add settings to snippets submenu
+	add_submenu_page(
+						'edit.php?post_type=call-out-box'
+						,esc_html__('Call-out Boxes Settings', 'call-out-boxes')
+						,esc_html__('Settings', 'call-out-boxes')
+						,'manage_options'
+						,'azrcrv-cob'
+						,'azrcrv_cob_display_options'
+					);
+	
+	// add settings to azurecurve menu
 	add_submenu_page("azrcrv-plugin-menu"
-						,"Call-out Box Settings"
-						,"Call-out Boxes"
+						,esc_html__('Call-out Boxes Settings', 'call-out-boxes')
+						,esc_html__('Call-out Boxes', 'call-out-boxes')
 						,'manage_options'
 						,'azrcrv-cob'
 						,'azrcrv_cob_display_options');
 }
+
 
 /**
  * Display Settings page.
@@ -223,11 +612,11 @@ function azrcrv_cob_display_options(){
 	
 		<fieldset>
 		
-			<h2><?php esc_html_e('Call-out Box Settings', 'call-out-boxes'); ?></h2>
+			<h2><?php _e('Call-out Box Settings', 'call-out-boxes'); ?></h2>
 			
 			<?php if(isset($_GET['settings-updated'])){ ?>
 				<div class="notice notice-success is-dismissible">
-					<p><strong><?php esc_html_e('Settings have been saved.', 'call-out-boxes'); ?></strong></p>
+					<p><strong><?php _e('Settings have been saved.', 'call-out-boxes'); ?></strong></p>
 				</div>
 			<?php } ?>
 			
@@ -238,140 +627,168 @@ function azrcrv_cob_display_options(){
 				
 				<!-- Adding security through hidden referrer field -->
 				<?php wp_nonce_field('azrcrv-cob-nonce', 'azrcrv-cob-nonce'); ?>
+				
 				<table class="form-table">
 				
 					<tr>
-						<th scope="row" colspan="2">
+						<th scope="row">
 							<p>
-								<?php printf(esc_html__('Call-out Boxes are added to posts or pages using the %s shortcode. ', 'call-out-boxes'), '<strong>call-out-boxes</strong>'); ?>
+								<?php printf(__('Call-out Boxes are added to posts or pages using the %s shortcode. ', 'call-out-boxes'), '<strong>call-out-boxes</strong>'); ?>
 							</p>
 						</th>
 					</tr>
-					
-					<tr>
-						<th scope="row">
-							<label for="icon"><?php esc_html_e('Icon', 'call-out-boxes'); ?></label>
+				</table>
+				
+				<table class="form-table">
+					<tr scope="row">
+						<th>
+							<?php _e('Example call-out box', 'call-out-boxes'); ?>
 						</th>
-						<td>
-							<?php
-							if (azrcrv_cob_is_plugin_active('azrcrv-icons/azrcrv-icons.php')){
-								echo do_shortcode('[icon='.esc_html(stripslashes($options['icon'])).']&nbsp;');
-							?>
-								<input type="text" name="icon" value="<?php echo esc_html(stripslashes($options['icon'])); ?>" class="regular-text" />
-								<p class="description">
-									<?php esc_html_e('Default icon which can be overridden using a shortcode parameter', 'call-out-boxes'); ?>
-								</p>
-								<p class="description">
-									<?php esc_html_e('Commonly used icons are:', 'call-out-boxes'); ?>
-								</p>
-								<ul style='list-style-type: none; padding-left: 10px; '>
-									<li><?php echo do_shortcode("[icon=lightbulb] lightbulb"); ?></li>
-									<li><?php echo do_shortcode("[icon=bug] bug"); ?></li>
-									<li><?php echo do_shortcode("[icon=bullet_error] bullet_error"); ?></li>
-									<li><?php echo do_shortcode("[icon= exclamation]  exclamation"); ?></li>
-									<li><?php echo do_shortcode("[icon=note] note"); ?></li>
-									<li><?php echo do_shortcode("[icon=page] page"); ?></li>
-								</ul>
-								<p class="description">
-									<?php
-									printf(esc_html__('See the full list of %s.', 'call-out-boxes'), ' <a href="http://test.azurecurve.co.uk/wp-admin/admin.php?page=azrcrv-i">'.esc_html__('available icons', 'call-out-boxes').'</a>');
-									?>
-								</p>
-							<?php
-							}else{
-								printf(esc_html__('Install and activate the %s plugin to get access to 1,000 16x16 icons.', 'call-out-boxes'), '<a href="https://development.azurecurve.co.uk/classicpress-plugins/icons/">Icons</a>');
-							}
-							?>
-						</td>
 					</tr>
 					
 					<tr>
+						<td scope="row">
+							<?php
+								echo azrcrv_cob_display_shortcode(array('heading' => 'This is an example call-out box'), 'The call-out box will look like this example.');
+							?>
+						</td>
+					</tr>
+				
+				</table>
+				
+				<table class="form-table">
+							
+					<tr>
 						<th scope="row">
-							<label for="heading-open"><?php esc_html_e('Heading Open', 'call-out-boxes'); ?></label>
+							<label for="icons-integration">
+								<?php printf(__('Integrate with %s from %s', 'call-out-boxes'), '<a href="https://development.azurecurve.co.uk/classicpress-plugins/icons/">Icons</a>', '<a href="https://development.azurecurve.co.uk/classicpress-plugins/">azurecurve</a>'); ?>
+							</label>
+						</th>
+						<td>
+							<?php
+								if (azrcrv_pi_is_plugin_active('azrcrv-icons/azrcrv-icons.php')){ ?>
+									<label for="icons-integration"><input name="icons-integration" type="checkbox" id="icons-integration" value="1" <?php checked('1', $options['icons-integration']); ?> /><?php printf(esc_html__('Enable integration with %s from %s?', 'call-out-boxes'), 'Icons', 'azurecurve'); ?></label>
+								<?php }else{
+									printf(__('%s from %s not installed/activated.', 'call-out-boxes'), 'Icons', 'azurecurve');
+								}
+								?>
+						</td>
+					</tr>
+							
+					<?php if (azrcrv_cob_is_plugin_active('azrcrv-icons/azrcrv-icons.php') AND $options['icons-integration'] == 1){ ?>
+						<tr>
+							<th scope="row">
+								<label for="timeline-signifier">
+									<label for="icon"><?php _e('Icon', 'call-out-boxes'); ?></label>
+								</label>
+							</th>
+							<td>
+								<select name="icon">
+								<option value="" <?php if($options['icon'] == ''){ echo ' selected="selected"'; } ?>>&nbsp;</option>
+								<?php						
+								$icons = azrcrv_i_get_icons();
+								
+								foreach ($icons as $icon_id => $icon){
+									echo '<option value="'.esc_html($icon_id).'" ';
+									if($options['icon'] == esc_html($icon_id)){ echo ' selected="selected"'; }
+									echo '>'.esc_html($icon_id).'</option>';
+								}
+								echo '</select>';
+								if (strlen($options['icon']) > 0){
+									echo '&nbsp;'.azrcrv_i_icon(array(esc_html(stripslashes($options['icon']))));
+								}
+								?>
+							</td>
+						</tr>
+					<?php } ?>
+					
+					<tr>
+						<th scope="row">
+							<label for="heading-open"><?php _e('Heading Open', 'call-out-boxes'); ?></label>
 						</th>
 						<td>
 							<input type="text" name="heading-open" value="<?php echo esc_html(stripslashes($options['heading-open'])); ?>" class="regular-text" />
-							<p class="description"><?php esc_html_e('Opening tag for heading shortcode parameter.', 'call-out-boxes'); ?></p>
+							<p class="description"><?php __('Opening tag for heading shortcode parameter.', 'call-out-boxes'); ?></p>
 						</td>
 					</tr>
 					
 					<tr>
 						<th scope="row">
-							<label for="heading-close"><?php esc_html_e('Heading Close', 'call-out-boxes'); ?></label>
+							<label for="heading-close"><?php _e('Heading Close', 'call-out-boxes'); ?></label>
 						</th>
 						<td>
 							<input type="text" name="heading-close" value="<?php echo esc_html(stripslashes($options['heading-close'])); ?>" class="regular-text" />
-							<p class="description"><?php esc_html_e('Closing tag for heading shortcode parameter.', 'call-out-boxes'); ?></p>
+							<p class="description"><?php __('Closing tag for heading shortcode parameter.', 'call-out-boxes'); ?></p>
 						</td>
 					</tr>
 					
 					<tr>
 						<th scope="row">
-							<label for="width"><?php esc_html_e('Width', 'call-out-boxes'); ?></label>
+							<label for="width"><?php _e('Width', 'call-out-boxes'); ?></label>
 						</th>
 						<td>
 							<input type="text" name="width" value="<?php echo esc_html(stripslashes($options['width'])); ?>" class="regular-text" />
-							<p class="description"><?php esc_html_e('Default width which can be overridden using a shortcode parameter.', 'call-out-boxes'); ?></p>
+							<p class="description"><?php printf(__('Default width which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>width</strong>'); ?></p>
 						</td>
 					</tr>
 					
 					<tr>
 						<th scope="row">
-							<label for="margin"><?php esc_html_e('Margin', 'call-out-boxes'); ?></label>
+							<label for="margin"><?php _e('Margin', 'call-out-boxes'); ?></label>
 						</th>
 						<td>
 							<input type="text" name="margin" value="<?php echo esc_html(stripslashes($options['margin'])); ?>" class="regular-text" />
-							<p class="description"><?php esc_html_e('Default margin which can be overridden using a shortcode parameter.', 'call-out-boxes'); ?></p>
+							<p class="description"><?php printf(__('Default margin which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>margin</strong>'); ?></p>
 						</td>
 					</tr>
 					
 					<tr>
 						<th scope="row">
-							<label for="padding"><?php esc_html_e('Padding', 'call-out-boxes'); ?></label>
+							<label for="padding"><?php _e('Padding', 'call-out-boxes'); ?></label>
 						</th>
 						<td>
 							<input type="text" name="padding" value="<?php echo esc_html(stripslashes($options['padding'])); ?>" class="regular-text" />
-							<p class="description"><?php esc_html_e('Default padding which can be overridden using a shortcode parameter.', 'call-out-boxes'); ?></p>
+							<p class="description"><?php printf(__('Default padding which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>padding</strong>'); ?></p>
 						</td>
 					</tr>
 					
 					<tr>
 						<th scope="row">
-							<label for="border"><?php esc_html_e('Border', 'call-out-boxes'); ?></label>
+							<label for="border"><?php _e('Border', 'call-out-boxes'); ?></label>
 						</th>
 						<td>
 							<input type="text" name="border" value="<?php echo esc_html(stripslashes($options['border'])); ?>" class="regular-text" />
-							<p class="description"><?php esc_html_e('Default border which can be overridden using a shortcode parameter.', 'call-out-boxes'); ?></p>
+							<p class="description"><?php printf(__('Default border which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>border</strong>'); ?></p>
 						</td>
 					</tr>
 					
 					<tr>
 						<th scope="row">
-							<label for="border-radius"><?php esc_html_e('Border Radius', 'call-out-boxes'); ?></label>
+							<label for="border-radius"><?php _e('Border Radius', 'call-out-boxes'); ?></label>
 						</th>
 						<td>
 							<input type="text" name="border-radius" value="<?php echo esc_html(stripslashes($options['border-radius'])); ?>" class="regular-text" />
-							<p class="description"><?php esc_html_e('Default border radius which can be overridden using a shortcode parameter.', 'call-out-boxes'); ?></p>
+							<p class="description"><?php printf(__('Default border radius which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>border-radius</strong>'); ?></p>
 						</td>
 					</tr>
 					
 					<tr>
 						<th scope="row">
-							<label for="color"><?php esc_html_e('Color', 'call-out-boxes'); ?></label>
+							<label for="color"><?php _e('Color', 'call-out-boxes'); ?></label>
 						</th>
 						<td>
 							<input type="text" name="color" value="<?php echo esc_html(stripslashes($options['color'])); ?>" class="regular-text" />
-							<p class="description"><?php esc_html_e('Default text color which can be overridden using a shortcode parameter.', 'call-out-boxes'); ?></p>
+							<p class="description"><?php printf(__('Default text color which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>text-color</strong>'); ?></p>
 						</td>
 					</tr>
 					
 					<tr>
 						<th scope="row">
-							<label for="background-color"><?php esc_html_e('Background Color', 'call-out-boxes'); ?></label>
+							<label for="background-color"><?php _e('Background Color', 'call-out-boxes'); ?></label>
 						</th>
 						<td>
 							<input type="text" name="background-color" value="<?php echo esc_html(stripslashes($options['background-color'])); ?>" class="regular-text" />
-							<p class="description"><?php esc_html_e('Default background color which can be overridden using a shortcode parameter.', 'call-out-boxes'); ?></p>
+							<p class="description"><?php printf(__('Default background color which can be overridden using the %s shortcode parameter.', 'call-out-boxes'), '<strong>background-color</strong>'); ?></p>
 						</td>
 					</tr>
 				
@@ -379,7 +796,7 @@ function azrcrv_cob_display_options(){
 						<th scope="row">&nbsp;</th>
 						<td>
 							<p>
-								<?php esc_html_e('The following parameters can be supplied to the shortcode:', 'call-out-boxes'); ?>
+								<?php _e('The following parameters can be supplied to the shortcode:', 'call-out-boxes'); ?>
 								<ul style='list-style-type: none; padding-left: 10px; '>
 								<li>icon</li>
 								<li>heading</li>
@@ -423,6 +840,13 @@ function azrcrv_cob_save_options(){
 	
 		// Retrieve original plugin options array
 		$options = get_option('azrcrv-cob');
+		
+		$option_name = 'icons-integration';
+		if (isset($_POST[$option_name])){
+			$options[$option_name] = 1;
+		}else{
+			$options[$option_name] = 0;
+		}
 		
 		$option_name = 'icon';
 		if (isset($_POST[$option_name])){
@@ -505,10 +929,6 @@ function azrcrv_cob_get_allowed_tags() {
     $allowed_tags['h4']['style'] = 1;
     $allowed_tags['h5']['class'] = 1;
     $allowed_tags['h5']['style'] = 1;
-    $allowed_tags['div']['class'] = 1;
-    $allowed_tags['div']['style'] = 1;
-    $allowed_tags['span']['class'] = 1;
-    $allowed_tags['span']['style'] = 1;
 	
     return $allowed_tags;
 }
@@ -535,62 +955,103 @@ function azrcrv_cob_display_shortcode($atts, $content = null){
 	
 	// extract attributes from shortcode
 	$args = shortcode_atts(array(
-		'icon' => $options['icon'],
+		'key' => '',
+		'icon' => '',
 		'heading' => '',
-		'width' => $options['width'],
-		'margin' => $options['margin'],
-		'padding' => $options['padding'],
-		'border' => $options['border'],
-		'border-radius' => $options['border-radius'],
-		'color' => $options['color'],
-		'background-color' => $options['background-color'],
+		'width' => '',
+		'margin' => '',
+		'padding' => '',
+		'border' => '',
+		'border-radius' => '',
+		'color' => '',
+		'background-color' => '',
 	), $atts);
+	$key = $args['key'];
 	$icon = $args['icon'];
 	$heading = $args['heading'];
 	$width = $args['width'];
 	$margin = $args['margin'];
 	$padding = $args['padding'];
 	$border = $args['border'];
-	$borderradius = $args['border-radius'];
+	$border_radius = $args['border-radius'];
 	$color = $args['color'];
-	$backgroundcolor = $args['background-color'];
+	$background_color = $args['background-color'];
+	
+	if (isset($key)){
+		if ($post = get_page_by_path($key, OBJECT, 'call-out-box')){
+			$azrcrv_cob = get_post_meta( $post->ID, '_azrcrv_cob', true ); // Get the saved values
+			
+			if (strlen($icon) == 0){
+				if (isset($azrcrv_cob['icon']) AND strlen($azrcrv_cob['icon']) > 0){ $icon = $azrcrv_cob['icon']; }
+			}
+			if (strlen($heading) == 0){
+				if (isset($azrcrv_cob['heading']) AND strlen($azrcrv_cob['heading']) > 0){ $heading = $azrcrv_cob['heading']; }
+			}
+			if (strlen($width) == 0){
+				if (isset($azrcrv_cob['width']) AND strlen($azrcrv_cob['width']) > 0){ $width = $azrcrv_cob['width']; }
+			}
+			if (strlen($margin) == 0){
+				if (isset($azrcrv_cob['margin']) AND strlen($azrcrv_cob['margin']) > 0){ $margin = $azrcrv_cob['margin']; }
+			}
+			if (strlen($padding) == 0){
+				if (isset($azrcrv_cob['padding']) AND strlen($azrcrv_cob['padding']) > 0){ $padding = $azrcrv_cob['padding']; }
+			}
+			if (strlen($border) == 0){
+				if (isset($azrcrv_cob['border']) AND strlen($azrcrv_cob['border']) > 0){ $border = $azrcrv_cob['border']; }
+			}
+			if (strlen($border_radius) == 0){
+				if (isset($azrcrv_cob['border-radius']) AND strlen($azrcrv_cob['border-radius']) > 0){ $border_radius = $azrcrv_cob['border-radius']; }
+			}
+			if (strlen($color) == 0){
+				if (isset($azrcrv_cob['color']) AND strlen($azrcrv_cob['color']) > 0){ $color = $azrcrv_cob['color']; }
+			}
+			if (strlen($background_color) == 0){
+				if (isset($azrcrv_cob['background-color']) AND strlen($azrcrv_cob['background-color']) > 0){ $background_color = $azrcrv_cob['background-color']; }
+			}
+		}
+	}
+	if (strlen($icon) == 0){ $icon = $options['icon']; }
+	if (strlen($heading) == 0){ $heading = ''; }
+	if (strlen($width) == 0){ $width = $options['width']; }
+	if (strlen($margin) == 0){ $margin = $options['margin']; }
+	if (strlen($padding) == 0){ $padding = $options['padding']; }
+	if (strlen($border) == 0){ $border = $options['border']; }
+	if (strlen($border_radius) == 0){ $border_radius = $options['border-radius']; }
+	if (strlen($color) == 0){ $color = $options['color']; }
+	if (strlen($background_color) == 0){ $background_color = $options['background-color']; }
 	
 	$output = '';
 	if (strlen($content) > 0){
-		if (strlen($width) > 0){ $outputwidth = "width: $width; "; }
-		if (strlen($margin) > 0){ $outputmargin = "margin: $margin; "; }
-		if (strlen($padding) > 0){ $outputpadding = "padding: $padding; "; }
-		if (strlen($border) > 0){ $outputborder = "border: $border; " ; }
-		if (strlen($borderradius) > 0){ $outputborderradius = "border-radius: $borderradius; "; }
-		if (strlen($color) > 0){ $outputcolor = "color: $color; "; }
-		if (strlen($backgroundcolor) > 0){ $outputbackgroundcolor = "background-color: $backgroundcolor; "; }
+		if (strlen($width) > 0){ $output_width = "width: $width; "; }
+		if (strlen($margin) > 0){ $output_margin = "margin: $margin; "; }
+		if (strlen($padding) > 0){ $output_padding = "padding: $padding; "; }
+		if (strlen($border) > 0){ $output_border = "border: $border; " ; }
+		if (strlen($border_radius) > 0){ $output_border_radius = "border-radius: $border_radius; "; }
+		if (strlen($color) > 0){ $output_color = "color: $color; "; }
+		if (strlen($background_color) > 0){ $output_background_color = "background-color: $background_color; "; }
 		
-		$outputcontent = '';
+		$output_content = '';
 		if (strlen($heading) > 0){
-			$outputcontent .= stripslashes($options['heading-open']);
+			$output_content .= stripslashes($options['heading-open']);
 		}
 		if (strlen($icon) > 0){
 			if (azrcrv_cob_is_plugin_active('azrcrv-icons/azrcrv-icons.php')){
-				$outputcontent .= do_shortcode('[icon='.esc_html($icon).']&nbsp;');
+				$output_content .= azrcrv_i_icon(array(esc_html($icon))).'&nbsp;';
 			}
 		}
 		if (strlen($heading) > 0){
-			$outputcontent .= esc_html($heading).stripslashes($options['heading-close']);
+			$output_content .= esc_html($heading).stripslashes($options['heading-close']);
 		}
-		$outputcontent .= '<p>'.$content.'</p>';
+		$output_content .= '<p>'.$content.'</p>';
 		
-		$output = "<div class='azrcrv-cob' style='".esc_html__($outputwidth).esc_html__($outputmargin).esc_html__($outputpadding).esc_html__($outputborder).esc_html__($outputcolor).esc_html__($outputbackgroundcolor).esc_html__($outputborderradius)."'>";
+		$output = "<div class='azrcrv-cob' style='".esc_html__($output_width).esc_html__($output_margin).esc_html__($output_padding).esc_html__($output_border).esc_html__($output_color).esc_html__($output_background_color).esc_html__($output_border_radius)."'>";
 		if ($options['do-shortcode'] == 1){
-			$output .= do_shortcode($outputcontent);
+			$output .= do_shortcode($output_content);
 		}else{		
-			$output .= $outputcontent;
+			$output .= $output_content;
 		}
 		$output .= "</div>";
 	}
 	return $output;
 	
 }
-
-
-
-?>

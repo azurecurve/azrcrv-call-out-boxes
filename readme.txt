@@ -1,12 +1,12 @@
 === Call-out Boxes ===
 
 Description:	Place configurable call-out box in posts, pages or other post types.
-Version:		1.3.0
+Version:		1.4.0
 Tags:			call-out,information
 Author:			azurecurve
 Author URI:		https://development.azurecurve.co.uk/
 Plugin URI:		https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes/
-Download link:	https://github.com/azurecurve/azrcrv-call-out-boxes/releases/download/v1.3.0/azrcrv-call-out-boxes.zip
+Download link:	https://github.com/azurecurve/azrcrv-call-out-boxes/releases/download/v1.4.0/azrcrv-call-out-boxes.zip
 Donate link:	https://development.azurecurve.co.uk/support-development/
 Requires PHP:	5.6
 Requires:		1.0.0
@@ -62,6 +62,13 @@ This plugin is developed for ClassicPress, but will likely work on WordPress.
 
 # Changelog
 
+### [Version 1.4.0](https://github.com/azurecurve/azrcrv-call-out-boxes/releases/tag/v1.4.0)
+ * Add call-out box templates using **call-out box** custom post type.
+ * Add display of example call-out box to Settings page.
+ * Add [Icons](https://development.azurecurve.co.uk/clasicpress-plugins/icons/) integration flag to settings.
+ * Update [Icons](https://development.azurecurve.co.uk/clasicpress-plugins/icons/) plugin integration to allow selection of icon via drop down list.
+ * Update azurecurve plugin menu.
+ 
 ### [Version 1.3.0](https://github.com/azurecurve/azrcrv-call-out-boxes/releases/tag/v1.3.0)
  * Update Update Manager class to v2.0.0 (previous update was incorrect).
  * Fix bug with load of plugin icon and banner.
