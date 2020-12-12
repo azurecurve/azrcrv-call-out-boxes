@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------------
  * Plugin Name: Call-out Boxes
  * Description: Place configurable call-out box in posts, pages or other post types.
- * Version: 1.4.0
+ * Version: 1.4.1
  * Author: azurecurve
  * Author URI: https://development.azurecurve.co.uk/classicpress-plugins/
  * Plugin URI: https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes/
@@ -215,7 +215,7 @@ function azrcrv_cob_add_meta_boxes(){
 	// add settings meta box
 	add_meta_box(
 		'azrcrv_cob_settings_meta_box', // $id
-		'Example', // $title
+		'Template Settings', // $title
 		'azrcrv_cob_show_settings_meta_box', // $callback
 		'call-out-box', // $screen
 		'normal', // $context
@@ -253,9 +253,9 @@ function azrcrv_cob_show_key_meta_box(){
  *
  */
 function azrcrv_cob_show_example_meta_box(){
-	global $post;  
+	global $post;
 	
-	$options = azrcrv_s_get_option('azrcrv-cob');
+	$options = azrcrv_cob_get_option('azrcrv-cob');
 	
 	$azrcrv_cob = get_post_meta( $post->ID, '_azrcrv_cob', true ); // Get the saved values
 	
@@ -304,7 +304,7 @@ function azrcrv_cob_show_settings_meta_box(){
 	// Variables
 	global $post; // Get the current post data
 	
-	$options = azrcrv_n_get_option('azrcrv-cob');
+	$options = azrcrv_cob_get_option('azrcrv-cob');
 	
 	$azrcrv_cob = get_post_meta( $post->ID, '_azrcrv_cob', true ); // Get the saved values
 	
