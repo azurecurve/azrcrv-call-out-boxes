@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------------------
  * Plugin Name: Call-out Boxes
  * Description: Place configurable call-out box in posts, pages or other post types.
- * Version: 1.4.1
+ * Version: 1.4.2
  * Author: azurecurve
  * Author URI: https://development.azurecurve.co.uk/classicpress-plugins/
  * Plugin URI: https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes/
@@ -559,7 +559,7 @@ function azrcrv_cob_add_plugin_action_link($links, $file){
 	}
 
 	if ($file == $this_plugin){
-		$settings_link = '<a href="'.admin_url('admin.php?page=azrcrv-cob').'"><img src="'.plugins_url('/pluginmenu/images/Favicon-16x16.png', __FILE__).'" style="padding-top: 2px; margin-right: -5px; height: 16px; width: 16px;" alt="azurecurve" />'.esc_html__('Settings' ,'get-github-file').'</a>';
+		$settings_link = '<a href="'.admin_url('admin.php?page=azrcrv-cob').'"><img src="'.plugins_url('/pluginmenu/images/logo.svg', __FILE__).'" style="padding-top: 2px; margin-right: -5px; height: 16px; width: 16px;" alt="azurecurve" />'.esc_html__('Settings' ,'get-github-file').'</a>';
 		array_unshift($links, $settings_link);
 	}
 
@@ -666,10 +666,10 @@ function azrcrv_cob_display_options(){
 						</th>
 						<td>
 							<?php
-								if (azrcrv_pi_is_plugin_active('azrcrv-icons/azrcrv-icons.php')){ ?>
+								if (azrcrv_cob_is_plugin_active('azrcrv-icons/azrcrv-icons.php')){ ?>
 									<label for="icons-integration"><input name="icons-integration" type="checkbox" id="icons-integration" value="1" <?php checked('1', $options['icons-integration']); ?> /><?php printf(esc_html__('Enable integration with %s from %s?', 'call-out-boxes'), 'Icons', 'azurecurve'); ?></label>
 								<?php }else{
-									printf(__('%s from %s not installed/activated.', 'call-out-boxes'), 'Icons', 'azurecurve');
+									printf(__('%s from %s is not installed/activated.', 'call-out-boxes'), 'Icons', 'azurecurve');
 								}
 								?>
 						</td>
