@@ -24,7 +24,7 @@ Place configurable call-out box in posts, pages or other post types.
 
 Place configurable call-out box in posts, pages or other post types.
 
-Integrates with the [Icons](https://development.azurecurve.co.uk/classicpress-plugins/code/) plugin from azurecurve for call-out box icons.
+Integrates with the [Icons](https://development.azurecurve.co.uk/classicpress-plugins/icons/) plugin from azurecurve for call-out box icons.
 
 The following parameters can be used with the **call-out-boxes** shortcode:
 * icon
