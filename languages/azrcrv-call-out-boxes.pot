@@ -1,0 +1,230 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Call-out Boxes\n"
+"POT-Creation-Date: 2021-12-27 17:48+0000\n"
+"PO-Revision-Date: 2019-03-02 15:38+0000\n"
+"Last-Translator: \n"
+"Language-Team: translate@azurecurve.co.uk\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e\n"
+"X-Poedit-SearchPath-0: azrcrv-call-out-boxes.php\n"
+
+#: azrcrv-call-out-boxes.php:153
+msgid "Templates"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:154
+msgid "Template"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:155 azrcrv-call-out-boxes.php:590
+msgid "Call-out Boxes"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:156
+msgid "Call-out Box Template"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:157
+msgid "All Templates"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:158
+msgid "Add New Template"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:159
+msgid "Add New Call-out Box Template"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:160
+msgid "Edit Template"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:161
+msgid "Edit Call-out Box Template"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:162
+msgid "New Call-out Box Template"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:163
+msgid "View Template"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:164
+msgid "View Call-out Box Template"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:165
+msgid "Search Call-out Box Templates"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:166
+msgid "No Call-out Box Templates found"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:167
+msgid "No Call-out Box Templates found in Trash"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:168
+msgid "Parent Call-out Box"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:240
+#, php-format
+msgid "Use the following key in the shortcode to use this template: %s"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:287
+msgid "The meta box will look approximately like this example; your sites CSS can cause some differences."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:321 azrcrv-call-out-boxes.php:687
+msgid "Icon"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:349
+msgid "Heading"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:354
+#, php-format
+msgid "Default heading which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:360 azrcrv-call-out-boxes.php:732
+msgid "Width"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:365 azrcrv-call-out-boxes.php:736
+#, php-format
+msgid "Default width which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:371 azrcrv-call-out-boxes.php:742
+msgid "Margin"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:376 azrcrv-call-out-boxes.php:746
+#, php-format
+msgid "Default margin which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:382 azrcrv-call-out-boxes.php:752
+msgid "Padding"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:387 azrcrv-call-out-boxes.php:756
+#, php-format
+msgid "Default padding which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:393 azrcrv-call-out-boxes.php:762
+msgid "Border"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:398 azrcrv-call-out-boxes.php:766
+#, php-format
+msgid "Default border which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:404 azrcrv-call-out-boxes.php:772
+msgid "Border Radius"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:409 azrcrv-call-out-boxes.php:776
+#, php-format
+msgid "Default border radius which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:415 azrcrv-call-out-boxes.php:782
+msgid "Color"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:420 azrcrv-call-out-boxes.php:786
+#, php-format
+msgid "Default text color which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:426 azrcrv-call-out-boxes.php:792
+msgid "Background Color"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:431 azrcrv-call-out-boxes.php:796
+#, php-format
+msgid "Default background color which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:562 azrcrv-call-out-boxes.php:581
+msgid "Settings"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:580 azrcrv-call-out-boxes.php:589
+msgid "Call-out Boxes Settings"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:605
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:624
+msgid "Settings have been saved."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:641
+#, php-format
+msgid "Call-out Boxes are added to posts or pages using the %s shortcode. "
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:650
+msgid "Example call-out box"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:669
+#, php-format
+msgid "Integrate with %s from %s"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:675
+#, php-format
+msgid "Enable integration with %s from %s?"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:677
+#, php-format
+msgid "%s from %s is not installed/activated."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:712
+msgid "Heading Open"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:716
+msgid "Opening tag for heading shortcode parameter."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:722
+msgid "Heading Close"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:726
+msgid "Closing tag for heading shortcode parameter."
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:804
+msgid "The following parameters can be supplied to the shortcode:"
+msgstr ""
+
+#: azrcrv-call-out-boxes.php:841
+msgid "You do not have permissions to perform this action"
+msgstr ""
