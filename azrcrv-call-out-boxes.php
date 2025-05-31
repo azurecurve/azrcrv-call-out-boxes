@@ -3,8 +3,9 @@
  * ------------------------------------------------------------------------------
  * Plugin Name:		Call-out Boxes
  * Description:		Place configurable call-out box in posts, pages or other post types.
- * Version:			1.5.4
+ * Version:			1.5.5
  * Requires CP:		1.0
+ * Requires PHP:	7.4
  * Author:			azurecurve
  * Author URI:		https://development.azurecurve.co.uk/classicpress-plugins/
  * Plugin URI:		https://development.azurecurve.co.uk/classicpress-plugins/call-out-boxes/
