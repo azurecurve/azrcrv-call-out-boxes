@@ -1,0 +1,9 @@
+/*
+	Call-out Boxes admin styles
+*/
+.azrcrv-cob-settings input[type="number"].small-text {
+	width: 4em;
+}
+.azrcrv-cob-settings .azrcrv-cob-example {
+	padding: 10px 0;
+}

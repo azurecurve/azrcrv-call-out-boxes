@@ -1,0 +1,359 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Call-out Boxes\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: translate@azurecurve.co.uk\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: azurecurve pot-gen\n"
+"X-Domain: call-out-boxes\n"
+
+#: includes/tab-settings.php:27
+msgid "%1$s from %2$s is not installed/activated."
+msgstr ""
+
+#: includes/tab-other-plugins.php:50 includes/azurecurve-menu-display.php:94
+msgid "%1$s was one of the first plugin developers to start developing for ClassicPress; all plugins are available from %2$s and are integrated with the %3$s plugin for fully integrated, no hassle, updates."
+msgstr ""
+
+#: includes/tab-instructions.php:50
+msgid "A parameter supplied directly on the shortcode."
+msgstr ""
+
+#: includes/azurecurve-menu-display.php:61
+msgid "Active Plugins"
+msgstr ""
+
+#: includes/plugin-functionality.php:52
+msgid "Add New Call-out Box Template"
+msgstr ""
+
+#: includes/plugin-functionality.php:51
+msgid "Add New Template"
+msgstr ""
+
+#: includes/plugin-functionality.php:50
+msgid "All Templates"
+msgstr ""
+
+#: includes/tab-instructions.php:37
+msgid "Any parameter left out falls back to the defaults configured on the Settings tab."
+msgstr ""
+
+#: includes/plugin-functionality.php:301 includes/tab-settings.php:264
+msgid "Background Color"
+msgstr ""
+
+#: includes/tab-instructions.php:31
+msgid "Basic usage"
+msgstr ""
+
+#: includes/plugin-functionality.php:268 includes/tab-settings.php:210
+msgid "Border"
+msgstr ""
+
+#: includes/plugin-functionality.php:279 includes/tab-settings.php:228
+msgid "Border Radius"
+msgstr ""
+
+#: includes/tab-instructions.php:61
+msgid "By default, content inside a call-out box is displayed as-is. If you need another shortcode processed inside a call-out box's content, turn on \"Process shortcodes within content\" on the Settings tab."
+msgstr ""
+
+#: includes/plugin-functionality.php:49
+msgid "Call-out Box Template"
+msgstr ""
+
+#: includes/functions-menu.php:56 includes/plugin-functionality.php:48
+msgid "Call-out Boxes"
+msgstr ""
+
+#: includes/tab-settings.php:77
+msgid "Call-out Boxes are added to posts, pages or other post types using the %s shortcode."
+msgstr ""
+
+#: includes/tab-instructions.php:29
+msgid "Call-out Boxes places a configurable, styled box around some content, using the %1$s or %2$s shortcode on posts, pages, or any other post type."
+msgstr ""
+
+#: includes/functions-menu.php:45 includes/functions-menu.php:55
+msgid "Call-out Boxes Settings"
+msgstr ""
+
+#: includes/tab-settings.php:146
+msgid "Closing tag for heading shortcode parameter."
+msgstr ""
+
+#: includes/plugin-functionality.php:290 includes/tab-settings.php:246
+msgid "Color"
+msgstr ""
+
+#: includes/azurecurve-menu-display.php:142
+msgid "Congratulations! You're using all of the %s plugins."
+msgstr ""
+
+#: includes/tab-instructions.php:43
+msgid "Create a template under Call-out Boxes → Templates. Each template has a Key shown in its Key meta box; use that key with the key parameter to apply the template's settings:"
+msgstr ""
+
+#: includes/plugin-functionality.php:306 includes/tab-settings.php:272
+msgid "Default background color which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: includes/plugin-functionality.php:284 includes/tab-settings.php:236
+msgid "Default border radius which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: includes/plugin-functionality.php:273 includes/tab-settings.php:218
+msgid "Default border which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: includes/plugin-functionality.php:229
+msgid "Default heading which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: includes/plugin-functionality.php:251 includes/tab-settings.php:182
+msgid "Default margin which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: includes/plugin-functionality.php:262 includes/tab-settings.php:200
+msgid "Default padding which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: includes/plugin-functionality.php:295 includes/tab-settings.php:254
+msgid "Default text color which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: includes/plugin-functionality.php:240 includes/tab-settings.php:164
+msgid "Default width which can be overridden using the %s shortcode parameter."
+msgstr ""
+
+#: includes/plugin-functionality.php:54
+msgid "Edit Call-out Box Template"
+msgstr ""
+
+#: includes/plugin-functionality.php:53
+msgid "Edit Template"
+msgstr ""
+
+#: includes/tab-settings.php:25
+msgid "Enable integration with %1$s from %2$s?"
+msgstr ""
+
+#: includes/plugin-functionality.php:96
+msgid "Example"
+msgstr ""
+
+#: includes/tab-settings.php:87
+msgid "Example call-out box"
+msgstr ""
+
+#: includes/plugin-functionality.php:224
+msgid "Heading"
+msgstr ""
+
+#: includes/tab-settings.php:138
+msgid "Heading Close"
+msgstr ""
+
+#: includes/tab-settings.php:120
+msgid "Heading Open"
+msgstr ""
+
+#: includes/plugin-functionality.php:197 includes/tab-settings.php:51
+msgid "Icon"
+msgstr ""
+
+#: includes/tab-instructions.php:55
+msgid "Icons integration"
+msgstr ""
+
+#: includes/tab-instructions.php:57
+msgid "If the %1$s plugin from %2$s is active, enabling integration on the Settings tab adds an icon picker to the site-wide defaults and to each template, and to the icon shortcode parameter."
+msgstr ""
+
+#: includes/tab-instructions.php:21
+msgid "Instructions"
+msgstr ""
+
+#: includes/tab-settings.php:105
+msgid "Integrate with %1$s from %2$s"
+msgstr ""
+
+#: includes/plugin-functionality.php:87
+msgid "Key"
+msgstr ""
+
+#: includes/tab-settings.php:293
+msgid "Leave this off unless you specifically place other shortcodes inside a call-out box's content."
+msgstr ""
+
+#: includes/plugin-functionality.php:246 includes/tab-settings.php:174
+msgid "Margin"
+msgstr ""
+
+#: includes/tab-instructions.php:59
+msgid "Nesting other shortcodes inside a call-out box"
+msgstr ""
+
+#: includes/plugin-functionality.php:55
+msgid "New Call-out Box Template"
+msgstr ""
+
+#: includes/plugin-functionality.php:59
+msgid "No Call-out Box Templates found"
+msgstr ""
+
+#: includes/plugin-functionality.php:60
+msgid "No Call-out Box Templates found in Trash"
+msgstr ""
+
+#: includes/tab-settings.php:128
+msgid "Opening tag for heading shortcode parameter."
+msgstr ""
+
+#: includes/azurecurve-menu-display.php:116
+msgid "Other Available Plugins"
+msgstr ""
+
+#: includes/tab-other-plugins.php:41
+msgid "Other Plugins"
+msgstr ""
+
+#: includes/tab-other-plugins.php:53
+msgid "Other plugins available from %s, which you are not using, are:"
+msgstr ""
+
+#: includes/plugin-functionality.php:257 includes/tab-settings.php:192
+msgid "Padding"
+msgstr ""
+
+#: includes/plugin-functionality.php:61
+msgid "Parent Call-out Box"
+msgstr ""
+
+#: includes/tab-settings.php:282
+msgid "Process shortcodes within content"
+msgstr ""
+
+#: includes/tab-settings.php:290
+msgid "Run the content inside a call-out box through do_shortcode(), so other shortcodes nested inside it are also processed"
+msgstr ""
+
+#: includes/tabs-output.php:92
+msgid "Save Settings"
+msgstr ""
+
+#: includes/plugin-functionality.php:58
+msgid "Search Call-out Box Templates"
+msgstr ""
+
+#: includes/functions-menu.php:30 includes/functions-menu.php:46 includes/tab-settings.php:68
+msgid "Settings"
+msgstr ""
+
+#: includes/functions-settings.php:77
+msgid "Settings have been saved."
+msgstr ""
+
+#: includes/tabs-output.php:101 includes/azurecurve-menu-tabs-output.php:57
+msgid "Support"
+msgstr ""
+
+#: includes/plugin-functionality.php:47
+msgid "Template"
+msgstr ""
+
+#: includes/plugin-functionality.php:105
+msgid "Template Settings"
+msgstr ""
+
+#: includes/plugin-functionality.php:46
+msgid "Templates"
+msgstr ""
+
+#: includes/tab-instructions.php:41
+msgid "Templates let you define a reusable set of defaults (icon, heading, colours, sizing) once, then reuse them by key across many call-out boxes, without having to repeat every parameter each time."
+msgstr ""
+
+#: includes/azurecurve-menu-display.php:97
+msgid "The %s plugins active on your site are:"
+msgstr ""
+
+#: includes/tab-settings.php:64
+msgid "The call-out box will look like this example."
+msgstr ""
+
+#: includes/tab-settings.php:306
+msgid "The following parameters can be supplied to the shortcode:"
+msgstr ""
+
+#: includes/plugin-functionality.php:170
+msgid "The meta box will look approximately like this example; your site's CSS can cause some differences."
+msgstr ""
+
+#: includes/azurecurve-menu-display.php:154
+msgid "The other plugins available from %s are:"
+msgstr ""
+
+#: includes/tab-instructions.php:52
+msgid "The site-wide default configured on the Settings tab."
+msgstr ""
+
+#: includes/tab-instructions.php:51
+msgid "The value stored on the template referenced by the key parameter, if any."
+msgstr ""
+
+#: includes/plugin-functionality.php:145
+msgid "This is an example"
+msgstr ""
+
+#: includes/tab-settings.php:64
+msgid "This is an example call-out box"
+msgstr ""
+
+#: includes/plugin-functionality.php:125
+msgid "Use the following key in the shortcode to use this template: %s"
+msgstr ""
+
+#: includes/tab-instructions.php:39
+msgid "Using templates"
+msgstr ""
+
+#: includes/tab-instructions.php:47
+msgid "Values are resolved in this order of precedence, highest first:"
+msgstr ""
+
+#: includes/plugin-functionality.php:57
+msgid "View Call-out Box Template"
+msgstr ""
+
+#: includes/plugin-functionality.php:56
+msgid "View Template"
+msgstr ""
+
+#: includes/plugin-functionality.php:235 includes/tab-settings.php:156
+msgid "Width"
+msgstr ""
+
+#: includes/tab-instructions.php:33
+msgid "Wrap the content you want inside the box between opening and closing shortcode tags, for example:"
+msgstr ""
+
+#: includes/tabs-output.php:112 includes/azurecurve-menu-tabs-output.php:68
+msgid "You can help support the development of our free plugins by donating a small amount of money."
+msgstr ""
+
+#: includes/functions-settings.php:97
+msgid "You do not have permissions to perform this action"
+msgstr ""
+
+#: includes/functions-settings.php:61
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
